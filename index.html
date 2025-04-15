@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glow Essence Studio | Premium Beauty Services</title>
+  <link rel="preload" href="logo.jpg" as="image">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4b0082;
+      --accent-color: #e0bbff;
+      --light-bg: #f3f0fa;
+      --text-color: #333;
+      --section-bg: #faf5ff;
+      --glow-color: rgba(224, 187, 255, 0.6);
+      --frame-color: rgba(75, 0, 130, 0.3);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--light-bg);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* Header with animated logo */
+    header {
+      background: linear-gradient(135deg, var(--primary-color), #6a0dad);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .logo {
+      height: 80px;
+      width: auto;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 0 20px var(--glow-color);
+      transition: all 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 0 30px var(--glow-color);
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 10px var(--glow-color);
+      transition: text-shadow 0.3s ease;
+    }
+    
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    /* Animated Navigation */
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: var(--primary-color);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+    }
+    
+    nav a {
+      color: white;
+      margin: 0 1.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      padding: 0.5rem 0;
+    }
+    
+    nav a::before {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 3px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--accent-color);
+      transition: width 0.4s ease;
+    }
+    
+    nav a:hover {
+      color: var(--accent-color);
+      transform: translateY(-3px);
+    }
+    
+    nav a:hover::before {
+      width: 100%;
+    }
+    
+    /* 3D Service Cards */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .services li {
+      list-style: none;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transform-style: preserve-3d;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .services li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    }
+    
+    .services li:hover {
+      transform: translateY(-10px) rotateX(5deg);
+      box-shadow: 0 20px 30px rgba(75,0,130,0.2);
+    }
+    
+    /* Gallery with Enhanced Effects */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .gallery-item {
+      position: relative;
+      cursor: pointer;
+      perspective: 1000px;
+    }
+    
+    .gallery-img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid rgba(255,255,255,0.8);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1),
+                  0 0 0 4px rgba(255,255,255,0.8),
+                  0 0 15px var(--glow-color);
+      transition: all 0.5s ease;
+      transform-style: preserve-3d;
+    }
+    
+    .gallery-item:hover .gallery-img {
+      transform: scale(1.03) rotateY(5deg);
+      box-shadow: 0 10px 25px rgba(75, 0, 130, 0.3),
+                  0 0 0 4px rgba(255,255,255,0.8),
+                  0 0 25px var(--glow-color);
+    }
+    
+    .image-caption {
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+    
+    .gallery-item:hover .image-caption {
+      color: var(--primary-color);
+      transform: translateY(5px);
+    }
+    
+    /* Glow Button */
+    .glow-btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #8a2be2, #ff00ff);
+      background-size: 200% auto;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2rem;
+      box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+      transition: all 0.5s ease;
+      animation: gradientShift 3s infinite;
+    }
+    
+    .glow-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% }
+      50% { background-position: 100% }
+      100% { background-position: 0% }
+    }
+    
+    /* Modal Enhancements */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.95);
+      overflow: auto;
+      backdrop-filter: blur(10px);
+    }
+    
+    .modal-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      position: relative;
+    }
+    
+    .modal-img-container {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      display: flex;
+      align-items: center;
+    }
+    
+    .modal-img {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 2px solid rgba(255,255,255,0.2);
+      box-shadow: 0 0 30px var(--glow-color);
+      animation: glowPulse 2s infinite alternate;
+    }
+    
+    @keyframes glowPulse {
+      from { box-shadow: 0 0 20px var(--glow-color); }
+      to { box-shadow: 0 0 40px var(--glow-color); }
+    }
+    
+    /* Navigation Controls */
+    .close {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      background: rgba(0,0,0,0.5);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid white;
+      transition: all 0.3s;
+      z-index: 1001;
+    }
+    
+    .close:hover {
+      color: var(--accent-color);
+      background: rgba(0,0,0,0.8);
+      border-color: var(--accent-color);
+      transform: rotate(90deg) scale(1.1);
+    }
+    
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      background: rgba(0,0,0,0.5);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid white;
+      transition: all 0.3s;
+      z-index: 1001;
+      opacity: 0.7;
+    }
+    
+    .nav-btn:hover {
+      background: rgba(0,0,0,0.8);
+      border-color: var(--accent-color);
+      color: var(--accent-color);
+      opacity: 1;
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .prev { left: 30px; }
+    .next { right: 30px; }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        padding: 0.5rem;
+      }
+      
+      nav a {
+        margin: 0 0.5rem;
+        padding: 0.3rem 0;
+        font-size: 0.9rem;
+      }
+      
+      .services {
+        grid-template-columns: 1fr;
+      }
+      
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-btn, .close {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="logo.jpg" alt="Glow Essence Studio Logo" class="logo">
+    </div>
+    <h1>Glow Essence Studio</h1>
+    <p>Radiate Beauty. Reveal Confidence.</p>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#services">Services</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+    <a href="booking.html" class="glow-btn">Book Now</a> <!-- Updated link -->
+  </nav>
+
+  <section id="home">
+    <h2>Welcome to Glow Essence Studio</h2>
+    <p>At Glow Essence, we believe beauty is an experience. Owned by Mbhalenhle, our studio provides expert care in a tranquil, modern setting. From elegant hairstyles to luxurious nail treatments, your glow starts here.</p>
+    <a href="#services" class="glow-btn">Explore Services</a>
+  </section>
+
+  <section id="services">
+    <h2>Our Premium Services</h2>
+    <ul class="services">
+      <li>
+        <h3>Hair Styling & Braiding</h3>
+        <p>Expert styling with premium products for all hair types.</p>
+      </li>
+      <li>
+        <h3>Relaxing & Treatments</h3>
+        <p>Revitalizing treatments to restore hair health and shine.</p>
+      </li>
+      <li>
+        <h3>Gel & Acrylic Nails</h3>
+        <p>Luxurious nail services with long-lasting results.</p>
+      </li>
+      <li>
+        <h3>Manicures & Pedicures</h3>
+        <p>Pampering hand and foot care with premium products.</p>
+      </li>
+      <li>
+        <h3>Wig Installation & Care</h3>
+        <p>Professional wig services for flawless looks.</p>
+      </li>
+      <li>
+        <h3>Makeup for Events</h3>
+        <p>Red carpet-ready makeup for your special occasions.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section id="gallery">
+    <h2>Our Work Gallery</h2>
+    <div class="gallery">
+      <div class="gallery-item" onclick="openModal(0)">
+        <img src="frontal.jpg" alt="Frontal Hairstyle" class="gallery-img">
+        <div class="image-caption">Frontal Hairstyle</div>
+      </div>
+      <div class="gallery-item" onclick="openModal(1)">
+        <img src="nails.jpg" alt="Nail Design" class="gallery-img">
+        <div class="image-caption">Nail Design</div>
+      </div>
+      <div class="gallery-item" onclick="openModal(2)">
+        <img src="makeup.jpg" alt="Makeup Look" class="gallery-img">
+        <div class="image-caption">Makeup Look</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <div class="contact-info">
+        <p><strong>Owner:</strong> Mbhalenhle</p>
+        <p><strong>Phone:</strong> <a href="tel:0768154014">076 815 4014</a></p>
+        <p><strong>WhatsApp:</strong> <a href="https://wa.me/2768154014" target="_blank">Chat with us</a></p>
+        <p><strong>Location:</strong> 123 Beauty Street, Your City</p>
+    </div>
+    <a href="booking.html" class="glow-btn">Schedule Appointment</a> <!-- Updated link -->
+  </section>
+
+  <!-- Fullscreen Image Modal -->
+  <div id="imageModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+      <div class="nav-btn prev" onclick="navigate(-1)">&#10094;</div>
+      <div class="modal-img-container">
+        <img id="modalImage" class="modal-img" src="" alt="">
+      </div>
+      <div class="nav-btn next" onclick="navigate(1)">&#10095;</div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Glow Essence Studio. All rights reserved.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    // Gallery images data
+    const galleryImages = [
+      { src: 'frontal.jpg', alt: 'Frontal Hairstyle' },
+      { src: 'nails.jpg', alt: 'Nail Design' },
+      { src: 'makeup.jpg', alt: 'Makeup Look' }
+    ];
+    
+    let currentImageIndex = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    // Modal functionality
+    function openModal(index) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      
+      currentImageIndex = index;
+      modal.style.display = "block";
+      modalImg.src = galleryImages[index].src;
+      modalImg.alt = galleryImages[index].alt;
+      
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').style.display = "none";
+      document.body.style.overflow = 'auto';
+    }
+
+    function navigate(direction) {
+      currentImageIndex += direction;
+      if (currentImageIndex < 0) {
+        currentImageIndex = galleryImages.length - 1;
+      } else if (currentImageIndex >= galleryImages.length) {
+        currentImageIndex = 0;
+      }
+      updateModalImage();
+    }
+
+    function updateModalImage() {
+      const modalImg = document.getElementById('modalImage');
+      modalImg.src = galleryImages[currentImageIndex].src;
+      modalImg.alt = galleryImages[currentImageIndex].alt;
+    }
+
+    // Touch events for mobile swipe
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) navigate(1); // Swipe left - next
+      if (touchEndX > touchStartX + 50) navigate(-1); // Swipe right - previous
+    }
+
+    // Close modal when clicking outside the image
+    window.onclick = function(event) {
+      const modal = document.getElementById('imageModal');
+      if (event.target == modal) closeModal();
+    }
+
+    // Keyboard navigation
+    document.onkeydown = function(evt) {
+      evt = evt || window.event;
+      if (evt.key === "Escape") closeModal();
+      if (evt.key === "ArrowLeft") navigate(-1);
+      if (evt.key === "ArrowRight") navigate(1);
+    };
+
+    // Animate elements on scroll
+    document.addEventListener('DOMContentLoaded', () => {
+      const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.services li, .gallery-item');
+        elements.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 100) {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          }
+        });
+      };
+
+      // Set initial state
+      document.querySelectorAll('.services li, .gallery-item').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s ease';
+      });
+
+      window.addEventListener('scroll', animateOnScroll);
+      animateOnScroll(); // Run once on load
+    });
+  </script>
+  
+  <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

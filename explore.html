@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore Services - Glow Essence Studio</title>
+  <style>
+    :root {
+      --primary-color: #4b0082;
+      --accent-color: #e0bbff;
+      --light-bg: #f3f0fa;
+      --text-color: #333;
+      --section-bg: #faf5ff;
+      --glow-color: rgba(224, 187, 255, 0.6);
+      --frame-color: rgba(75, 0, 130, 0.3);
+    }
+    
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--light-bg);
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    .header {
+      position: relative;
+      background: linear-gradient(135deg, #a64bf4, #d291ff);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" fill="rgba(255,255,255,0.1)"><path d="M0,70 C150,110 350,10 540,70 C720,130 900,70 1080,70 C1260,70 1440,110 1440,110 L1440,0 L0,0 Z"></path></svg>');
+      background-size: cover;
+      animation: wave 8s linear infinite;
+    }
+
+    @keyframes wave {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .back-button {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      font-size: 1.2rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      box-shadow: 0 0 10px rgba(255,255,255,0);
+    }
+
+    .back-button:hover {
+      background: white;
+      color: #a64bf4;
+      box-shadow: 0 0 15px rgba(255,255,255,0.7);
+    }
+
+    .back-button:active {
+      animation: vibrate 0.3s linear;
+    }
+
+    @keyframes vibrate {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-2px); }
+      50% { transform: translateX(2px); }
+      75% { transform: translateX(-2px); }
+      100% { transform: translateX(0); }
+    }
+
+    .category-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1rem;
+    }
+
+    .category-buttons button {
+      background-color: #b266ff;
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .category-buttons button:hover,
+    .category-buttons button.active {
+      background-color: #9933ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .category-buttons button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+      animation: vibrate 0.3s linear;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .gallery-img-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      aspect-ratio: 1/1;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Hover Frame Effect */
+    .gallery-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 3px solid transparent;
+      border-radius: 10px;
+      z-index: 1;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .gallery-item:hover::before {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 15px var(--glow-color),
+                  inset 0 0 15px var(--glow-color);
+    }
+
+    /* Image Caption */
+    .image-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(75, 0, 130, 0.7), transparent);
+      color: white;
+      padding: 1rem 0.5rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      text-align: center;
+      font-weight: 500;
+      z-index: 2;
+    }
+
+    .gallery-item:hover .image-caption {
+      transform: translateY(0);
+    }
+
+    /* Category-specific frame colors */
+    .nails::before {
+      border-color: #ff66b3;
+    }
+    .hairstyle::before {
+      border-color: #66b3ff;
+    }
+    .frontal::before {
+      border-color: #b366ff;
+    }
+    .wave::before {
+      border-color: #66ffb3;
+    }
+    .relax::before {
+      border-color: #ffb366;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .modal-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      padding: 20px; /* Add some padding */
+    }
+
+    .modal-img-container {
+      position: relative;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 90%;
+      max-height: 90vh;
+    }
+
+    .modal-img {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Glowing frame styles */
+    .modal-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 2px solid rgba(224, 187, 255, 0.8);
+      border-radius: 8px;
+      pointer-events: none;
+      z-index: 1;
+      animation: 
+        glow 2s ease-in-out infinite alternate,
+        fadeIn 0.4s ease-out forwards;
+      box-shadow: 0 0 15px rgba(224, 187, 255, 0.5);
+      opacity: 0;
+      box-sizing: border-box;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 10px rgba(224, 187, 255, 0.5); }
+      to { box-shadow: 0 0 20px rgba(224, 187, 255, 0.8); }
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+      z-index: 3;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+
+    .close:hover {
+      color: var(--accent-color);
+      transform: scale(1.2);
+    }
+
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 20px;
+      user-select: none;
+      z-index: 3;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+      opacity: 0.7;
+    }
+
+    .nav-arrow:hover {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.2);
+    }
+
+    .prev {
+      left: 20px;
+    }
+
+    .next {
+      right: 20px;
+    }
+
+    /* Animation classes */
+    .slide-in-left {
+      animation: slideInLeft 0.5s ease;
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.5s ease;
+    }
+
+    @keyframes slideInLeft {
+      from { transform: translateX(-100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @media (min-width: 768px) {
+      .gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .gallery {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .modal-img {
+        max-width: 80%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .modal-frame {
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border-width: 1px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="back-button" onclick="history.back()">×</button>
+  <div class="header">
+    Discover Your Beauty – Choose Your Style
+  </div>
+
+  <div class="category-buttons">
+    <button onclick="filterCategory('all')" class="active">All</button>
+    <button onclick="filterCategory('nails')">Nails (24)</button>
+    <button onclick="filterCategory('hairstyle')">Hairstyle (14)</button>
+    <button onclick="filterCategory('frontal')">Frontal (15)</button>
+    <button onclick="filterCategory('wave')">Wave (13)</button>
+    <button onclick="filterCategory('relax')">Relax (6)</button>
+  </div>
+
+  <div class="gallery">
+    <!-- 24 Nail Images -->
+    <div class="gallery-item nails" onclick="openModal(null, this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 1.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 1</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal(null, this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 2.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 2</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal(null, this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 3.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 3</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail4.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 4.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 4</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail5.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 5.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 5</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail6.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 6.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 6</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail7.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 7.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 7</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail8.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 8.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 8</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail9.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 9.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 9</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail10.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 10.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 10</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail11.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 11.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 11</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail12.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 12.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 12</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail13.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 13.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 13</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail14.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 14.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 14</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail15.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 15.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 15</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail16.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 16.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 16</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail17.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 17.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 17</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail18.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 18.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 18</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail19.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 19.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 19</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail20.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 20.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 20</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail21.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 21.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 21</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail22.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 22.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 22</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail23.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 23.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 23</div>
+        </div>
+      </div>
+      <div class="gallery-item nails" onclick="openModal('explore-images/nail24.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/nail 24.jpg" loading="lazy">
+          <div class="image-caption">Nail Design 24</div>
+        </div>
+      </div>
+  
+      <!-- 14 Hairstyle Images -->
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle1.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 1.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 1</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle2.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 2.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 2</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle3.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 3.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 3</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle4.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 4.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 4</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle5.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 5.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 5</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle6.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 6.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 6</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle7.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 7.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 7</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle8.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 8.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 8</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle9.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 9.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 9</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle10.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 10.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 10</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle11.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 11.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 11</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle12.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 12.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 12</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle13.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 13.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 13</div>
+        </div>
+      </div>
+      <div class="gallery-item hairstyle" onclick="openModal('explore-images/hairstyle14.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/hairstyle 14.jpg" loading="lazy">
+          <div class="image-caption">Hairstyle 14</div>
+        </div>
+      </div>
+  
+      <!-- 15 Frontal Images -->
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal1.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 1.jpg" loading="lazy">
+          <div class="image-caption">Frontal 1</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal2.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 2.jpg" loading="lazy">
+          <div class="image-caption">Frontal 2</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal3.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 3.jpg" loading="lazy">
+          <div class="image-caption">Frontal 3</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal4.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 4.jpg" loading="lazy">
+          <div class="image-caption">Frontal 4</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal5.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 5.jpg" loading="lazy">
+          <div class="image-caption">Frontal 5</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal6.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 6.jpg" loading="lazy">
+          <div class="image-caption">Frontal 6</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal7.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 7.jpg" loading="lazy">
+          <div class="image-caption">Frontal 7</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal8.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 8.jpg" loading="lazy">
+          <div class="image-caption">Frontal 8</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal9.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 9.jpg" loading="lazy">
+          <div class="image-caption">Frontal 9</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal10.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 10.jpg" loading="lazy">
+          <div class="image-caption">Frontal 10</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal11.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 11.jpg" loading="lazy">
+          <div class="image-caption">Frontal 11</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal12.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 12.jpg" loading="lazy">
+          <div class="image-caption">Frontal 12</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal13.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 13.jpg" loading="lazy">
+          <div class="image-caption">Frontal 13</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal14.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 14.jpg" loading="lazy">
+          <div class="image-caption">Frontal 14</div>
+        </div>
+      </div>
+      <div class="gallery-item frontal" onclick="openModal('explore-images/frontal15.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/frontal 15.jpg" loading="lazy">
+          <div class="image-caption">Frontal 15</div>
+        </div>
+      </div>
+  
+      <!-- 13 Wave Images -->
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave1.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 1.jpg" loading="lazy">
+          <div class="image-caption">Wave 1</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave2.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 2.jpg" loading="lazy">
+          <div class="image-caption">Wave 2</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave3.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 3.jpg" loading="lazy">
+          <div class="image-caption">Wave 3</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave4.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 4.jpg" loading="lazy">
+          <div class="image-caption">Wave 4</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave5.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 5.jpg" loading="lazy">
+          <div class="image-caption">Wave 5</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave6.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 6.jpg" loading="lazy">
+          <div class="image-caption">Wave 6</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave7.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 7.jpg" loading="lazy">
+          <div class="image-caption">Wave 7</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave8.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 8.jpg" loading="lazy">
+          <div class="image-caption">Wave 8</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave9.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 9.jpg" loading="lazy">
+          <div class="image-caption">Wave 9</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave10.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 10.jpg" loading="lazy">
+          <div class="image-caption">Wave 10</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave11.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 11.jpg" loading="lazy">
+          <div class="image-caption">Wave 11</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave12.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 12.jpg" loading="lazy">
+          <div class="image-caption">Wave 12</div>
+        </div>
+      </div>
+      <div class="gallery-item wave" onclick="openModal('explore-images/wave13.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/wave 13.jpg" loading="lazy">
+          <div class="image-caption">Wave 13</div>
+        </div>
+      </div>
+  
+      <!-- 6 Relax Images -->
+      <div class="gallery-item relax" onclick="openModal('explore-images/relax1.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/relax 1.jpg" loading="lazy">
+          <div class="image-caption">Relax 1</div>
+        </div>
+      </div>
+      <div class="gallery-item relax" onclick="openModal('explore-images/relax2.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/relax 2.jpg" loading="lazy">
+          <div class="image-caption">Relax 2</div>
+        </div>
+      </div>
+      <div class="gallery-item relax" onclick="openModal('explore-images/relax3.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/relax 3.jpg" loading="lazy">
+          <div class="image-caption">Relax 3</div>
+        </div>
+      </div>
+      <div class="gallery-item relax" onclick="openModal('explore-images/relax4.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/relax 4.jpg" loading="lazy">
+          <div class="image-caption">Relax 4</div>
+        </div>
+      </div>
+      <div class="gallery-item relax" onclick="openModal('explore-images/relax5.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/relax 5.jpg" loading="lazy">
+          <div class="image-caption">Relax 5</div>
+        </div>
+      </div>
+      <div class="gallery-item relax" onclick="openModal('explore-images/relax6.jpg', this)">
+        <div class="gallery-img-container">
+          <img src="explore-images/relax 6.jpg" loading="lazy">
+          <div class="image-caption">Relax 6</div>
+        </div>
+      </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="imageModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <a class="nav-arrow prev" onclick="navigate(-1)">&#10094;</a>
+    <div class="modal-content">
+      <div class="modal-img-container">
+        <div class="modal-frame"></div>
+        <img id="modalImage" class="modal-img" src="" alt="">
+      </div>
+    </div>
+    <a class="nav-arrow next" onclick="navigate(1)">&#10095;</a>
+  </div>
+
+  <script>
+    // Global variables for modal navigation
+    let currentImageIndex = 0;
+    let currentCategoryImages = [];
+    let allGalleryItems = [];
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      allGalleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+    });
+
+    function filterCategory(category) {
+      const buttons = document.querySelectorAll('.category-buttons button');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      const selectedButton = Array.from(buttons).find(btn => 
+        btn.textContent.toLowerCase().includes(category) || 
+        (category === 'all' && btn.textContent.toLowerCase().includes('all'))
+      );
+      
+      if (selectedButton) {
+        selectedButton.classList.add('active');
+        // Add vibrate effect
+        selectedButton.classList.add('vibrate');
+        setTimeout(() => selectedButton.classList.remove('vibrate'), 300);
+      }
+
+      const items = document.querySelectorAll('.gallery-item');
+      items.forEach(item => {
+        if (category === 'all') {
+          item.style.display = 'block';
+        } else {
+          item.style.display = item.classList.contains(category) ? 'block' : 'none';
+        }
+      });
+    }
+
+    function openModal(_, element) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      const modalFrame = document.querySelector('.modal-frame');
+
+      // Get all visible images in the current category
+      const category = Array.from(element.classList).find(cls =>
+        cls !== 'gallery-item' &&
+        ['nails', 'hairstyle', 'frontal', 'wave', 'relax'].includes(cls)
+      );
+
+      currentCategoryImages = category
+        ? Array.from(document.querySelectorAll(`.gallery-item.${category}`))
+        : allGalleryItems;
+
+      currentImageIndex = currentCategoryImages.indexOf(element);
+
+      // Display the modal and set the image source
+      modal.style.display = "flex";
+      modalImg.src = element.querySelector('img').src;
+      modalImg.classList.remove('slide-in-left', 'slide-in-right');
+      
+      // Show the frame
+      modalFrame.style.display = 'block';
+
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').style.display = "none";
+      document.body.style.overflow = 'auto';
+    }
+
+    function navigate(direction) {
+      const modalFrame = document.querySelector('.modal-frame');
+      
+      // Hide frame during transition
+      modalFrame.style.display = 'none';
+      
+      currentImageIndex += direction;
+      
+      // Handle wrap-around
+      if (currentImageIndex >= currentCategoryImages.length) {
+        currentImageIndex = 0;
+      } else if (currentImageIndex < 0) {
+        currentImageIndex = currentCategoryImages.length - 1;
+      }
+      
+      const nextImage = currentCategoryImages[currentImageIndex];
+      const imgSrc = nextImage.querySelector('img').src;
+      const modalImg = document.getElementById('modalImage');
+      
+      // Add slide animation based on direction
+      modalImg.classList.remove('slide-in-left', 'slide-in-right');
+      if (direction > 0) {
+        modalImg.classList.add('slide-in-right');
+      } else {
+        modalImg.classList.add('slide-in-left');
+      }
+      
+      modalImg.src = imgSrc;
+      
+      // Show frame after image loads
+      modalImg.onload = function() {
+        modalFrame.style.display = 'block';
+      };
+    }
+
+    // Close modal when clicking outside the image
+    window.onclick = function(event) {
+      const modal = document.getElementById('imageModal');
+      if (event.target == modal) closeModal();
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      const modal = document.getElementById('imageModal');
+      if (modal.style.display === 'flex') {
+        if (e.key === 'ArrowRight') {
+          navigate(1);
+        } else if (e.key === 'ArrowLeft') {
+          navigate(-1);
+        } else if (e.key === 'Escape') {
+          closeModal();
+        }
+      }
+    });
+
+    // Touch events for mobile swipe
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    document.addEventListener('touchstart', function(e) {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    document.addEventListener('touchend', function(e) {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+    
+    function handleSwipe() {
+      const modal = document.getElementById('imageModal');
+      if (modal.style.display !== 'flex') return;
+      
+      const threshold = 50; // Minimum swipe distance
+      
+      if (touchEndX < touchStartX - threshold) {
+        navigate(1); // Swipe left
+      } else if (touchEndX > touchStartX + threshold) {
+        navigate(-1); // Swipe right
+      }
+    }
+  </script>
+</body>
+</html>

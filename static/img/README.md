@@ -1,0 +1,1 @@
+echo "Salon website images" > static/img/README.md
